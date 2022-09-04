@@ -37,9 +37,13 @@ export default function EditScreenInfo() {
             }}
           />
           <View style={styles.restauInfo}>
-            <Text>{`🗺️ Address: ${item.location.street}, ${item.location.state} - ${item.location.zip}`}</Text>
-            <Text>{`⭐ Ratings: Ovr - ${item.ratings.overall_rating}/100 = ${item.ratings.star_rating}⭐, Total - ${item.ratings.num_ratings} rating(s)`}</Text>
-            <Text>{`🫕 Cuisines: ${item.cuisines.map(
+            <Text
+              style={styles.restauText}
+            >{`🗺️ Address: ${item.location.street}, ${item.location.state} - ${item.location.zip}`}</Text>
+            <Text
+              style={styles.restauText}
+            >{`⭐ Ratings: Ovr - ${item.ratings.overall_rating}/100 = ${item.ratings.star_rating}⭐, Total - ${item.ratings.num_ratings} rating(s)`}</Text>
+            <Text style={styles.restauText}>{`🫕 Cuisines: ${item.cuisines.map(
               (cuisine) => `${cuisine}`
             )}  `}</Text>
           </View>
@@ -62,6 +66,8 @@ export default function EditScreenInfo() {
   // generating the key to perform our requests with and saving the generated key in asynchronous storage for persistence
   const keyGenerator = (address) => {
     //Custom solution for address from City, Zip to city_zip
+    setWorking(true);
+
     if (address.includes(",")) {
       setWorking(true);
       const spaced = String(address)
@@ -91,9 +97,10 @@ export default function EditScreenInfo() {
     }
   };
   // console.log(key);
-
   // performing api fetch request to the submitted address
   const handleSearch = async (address) => {
+    setWorking(true);
+
     console.log("Searching Key:", address);
     try {
       setSearching(true);
@@ -304,9 +311,11 @@ const styles = StyleSheet.create({
     width: 350,
     height: 50,
     fontSize: 18,
-    borderRadius: 10,
+    borderRadius: 5,
     backgroundColor: "#fff",
     padding: 10,
+    borderColor: "gray",
+    borderWidth: 2,
   },
   helpContainer: {
     marginTop: 15,
@@ -347,6 +356,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     zIndex: 1,
     height: 30,
+    overflow: "hidden",
+    width: "80%",
   },
   card: {
     flex: 1,
@@ -388,6 +399,10 @@ const styles = StyleSheet.create({
   restauInfo: {
     display: "flex",
     paddingHorizontal: 10,
+  },
+  restauText: {
+    fontSize: 11,
+    overflow: "hidden",
   },
   footer: {
     textAlign: "center",
